@@ -14,7 +14,6 @@ func check_hits():
 		queue_free()
 
 func handle_collision(collision, collider):
-	print("handle collision")
 	hits -= 1
 	$Label.set_text(str(hits))
 	check_hits()

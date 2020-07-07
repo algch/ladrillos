@@ -24,9 +24,10 @@ config/icon="res://icon.png"
 window/size/width=720
 window/size/height=1280
 window/size/resizable=false
+window/size/test_width=360
+window/size/test_height=640
 window/handheld/orientation="portrait"
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
 
 [input]
 
