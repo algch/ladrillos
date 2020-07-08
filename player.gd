@@ -1,7 +1,7 @@
 extends Node2D
 
 var bullet_class = preload("res://bullet.tscn")
-var max_ammo = 5
+var max_ammo = 2
 var ammo = max_ammo
 var can_shoot = true
 var dir = Vector2(0, 0)
@@ -21,7 +21,6 @@ func _on_refreshTimer_timeout():
 	if not ammo:
 		$refreshTimer.stop()
 		ammo = max_ammo
-		can_shoot = true
 
 func _input(event):
 	if event.is_action_released("shoot") and can_shoot:
