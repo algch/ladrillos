@@ -1,31 +1,18 @@
 extends RigidBody2D
 
-var bullet_class = preload("res://bullet.tscn")
-
-var hits = 0
-var min_hits = 1
-var max_hits = 3
-
-var y_step = 80
+var color = null
 
 func _ready():
-	hits = (randi() % (max_hits + 1)) + min_hits
-	$Label.set_text(str(hits))
+	match randi() % 2:
+		0:
+			color = Color(1, 0, 0)
+		1:
+			color = Color(0, 0, 1)
+	$polygon.color = color
 
-func check_hits():
-	if hits <= 0:
+func _on_brick_body_entered(body):
+	if not body.is_in_group("bricks"):
+		return
+	print("collided")
+	if body.color == color:
 		queue_free()
-		var dir = Vector2.UP
-		for _i in range(4):
-			var bullet = bullet_class.instance()
-			bullet.direction = dir
-			bullet.position = position
-			bullet.rotation = rotation
-			get_parent().add_child(bullet)
-			dir = dir.rotated(PI/2)
-
-func handle_collision(collision, collider):
-	apply_central_impulse(-collision.normal * 500)
-	hits -= 1
-	$Label.set_text(str(hits))
-	check_hits()

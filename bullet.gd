@@ -4,13 +4,13 @@ var direction = Vector2(0, 0)
 var speed = 1250
 var hits = 5
 
+func destroy():
+	get_parent().get_node("player").can_shoot = true
+	queue_free()
+
 func check_hits():
 	if hits <= 0:
-		queue_free()
-	if len(get_tree().get_nodes_in_group("bullets")) <= 1:
-		get_parent().get_node("brickSpawner").spawn()
-		get_parent().get_node("turnEnder").active = false
-		get_parent().get_node("player").can_shoot = true
+		destroy()
 
 func _physics_process(delta):
 	var motion = direction * speed * delta
