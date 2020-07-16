@@ -1,8 +1,6 @@
 extends RigidBody2D
 
 var bullet_class = preload("res://bullet.tscn")
-var max_ammo = 1
-var ammo = max_ammo
 
 signal player_shooted
 

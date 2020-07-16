@@ -4,6 +4,7 @@ var can_shoot = true
 var aim_start = null
 var is_aiming = false
 var dir = Vector2()
+var score = 0
 
 func _ready():
 	randomize()
@@ -22,7 +23,10 @@ func _on_turnEnder_body_entered(body):
 
 func spawn():
 	var spawners = get_tree().get_nodes_in_group("spawners")
-	spawners[ randi() % len(spawners) ].spawn()
+	var spawner = spawners[ randi() % len(spawners) ]
+	while spawner.is_close_to_ball():
+		spawner = spawners[ randi() % len(spawners) ]
+	spawner.spawn()
 
 func _draw():
 	if not is_aiming:
@@ -35,6 +39,9 @@ func _process(delta):
 	update()
 	if is_aiming:
 		$player/polygon.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - $player.rotation
+
+func score():
+	score += 1
 
 func _input(event):
 	if event.is_action_pressed("shoot") and can_shoot:
