@@ -3,20 +3,19 @@
 [ext_resource path="res://brick.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 40.0
+radius = 60.0
 
-[node name="brick" type="RigidBody2D" groups=[
+[node name="brick" type="KinematicBody2D" groups=[
 "bricks",
 ]]
-mass = 0.510204
-gravity_scale = 0.25
-contacts_reported = 1
-contact_monitor = true
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="polygon" type="Polygon2D" parent="."]
-polygon = PoolVector2Array( -28.7533, -26.7309, 0.591614, -41.2266, 28.5223, -27.7915, 40.5432, 1.19984, 29.2294, 27.3628, 0.591614, 41.1514, -28.3998, 26.6557, -39.3599, -0.214371 )
-[connection signal="body_entered" from="." to="." method="_on_brick_body_entered"]
+polygon = PoolVector2Array( -40.4209, -43.7015, -0.822983, -59.9649, 44.4318, -41.2266, 59.9881, 1.90688, 41.6034, 43.2726, -0.115875, 57.7683, -40.7745, 44.3332, -59.1592, -1.2751 )
+
+[node name="speedDecreaseTimer" type="Timer" parent="."]
+wait_time = 0.25
+[connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]
