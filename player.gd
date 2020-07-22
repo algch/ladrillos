@@ -5,7 +5,6 @@ var bullet_class = preload("res://bullet.tscn")
 signal player_shooted
 
 var can_shoot = true
-var can_attack = false
 var aim_start = null
 var is_aiming = false
 var can_deal_damage = false
@@ -32,25 +31,22 @@ func _input(event):
 		$polygon.color = Color(1, 1, 1)
 
 	if event.is_action_released("shoot"):
+		# attack state
+		is_aiming = false
+		can_deal_damage = true
+		can_shoot = true
+		dir = (aim_start - get_global_mouse_position()).normalized()
+		var numerator = ($attackTimer.wait_time - $attackTimer.time_left)
+		print("numerator ", numerator)
+		var proportion = numerator / $attackTimer.wait_time
+		print("wait time ", $attackTimer.wait_time)
+		print("time left ", $attackTimer.time_left)
+		dir_speed = proportion * max_dir_speed
+		print("proportion ", proportion)
+		print("dir speed ", dir_speed)
+		$speedDecreaseTimer.start()
+		$polygon.color = Color(1, 1, 1)
 		$attackTimer.stop()
-		if can_attack:
-			# attack state
-			is_aiming = false
-			can_attack = false
-			can_deal_damage = true
-			can_shoot = true
-			dir = (aim_start - get_global_mouse_position()).normalized()
-			dir_speed = max_dir_speed
-			$speedDecreaseTimer.start()
-		else:
-			# idle state
-			dir = Vector2()
-			$attackTimer.stop()
-			can_deal_damage = false
-			can_shoot = true
-			can_deal_damage = false
-			is_aiming = false
-			$polygon.color = Color(1, 1, 1)
 
 func _process(delta):
 	update()
@@ -75,8 +71,7 @@ func _physics_process(delta):
 			collision.collider.handle_collision(-dir, dir_speed)
 
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
-			# refreshing state
-			$polygon.color = Color(0, 0, 1)
+			# refreshing state ?
 			var destroyed = collision.collider.deal_damage()
 			if destroyed:
 				dir = prev_dir
@@ -88,9 +83,10 @@ func _on_speedDecreaseTimer_timeout():
 	if dir_speed > 0:
 		$speedDecreaseTimer.start()
 	else:
+		dir = Vector2()
 		can_deal_damage = false
 		$polygon.color = Color(1, 1, 1)
 
 func _on_attackTimer_timeout():
-	can_attack = true
 	$polygon.color = Color(1, 0, 0)
+	$attackTimer.stop()
