@@ -9,7 +9,6 @@ var can_attack = false
 var aim_start = null
 var is_aiming = false
 var can_deal_damage = false
-var is_refreshing = false
 var dir = Vector2()
 var max_dir_speed = 500
 var speed_decrease = 50
@@ -24,7 +23,7 @@ func _ready():
 
 func _input(event):
 	# is idle ?
-	if event.is_action_pressed("shoot") and can_shoot and not is_refreshing:
+	if event.is_action_pressed("shoot") and can_shoot:
 		# aiming state
 		can_shoot = false
 		is_aiming = true
@@ -49,7 +48,6 @@ func _input(event):
 			$attackTimer.stop()
 			can_deal_damage = false
 			can_shoot = true
-			is_refreshing = false
 			can_deal_damage = false
 			is_aiming = false
 			$polygon.color = Color(1, 1, 1)
@@ -78,8 +76,6 @@ func _physics_process(delta):
 
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
 			# refreshing state
-			is_refreshing = true
-			$refreshTimer.start()
 			$polygon.color = Color(0, 0, 1)
 			var destroyed = collision.collider.deal_damage()
 			if destroyed:
@@ -94,13 +90,6 @@ func _on_speedDecreaseTimer_timeout():
 	else:
 		can_deal_damage = false
 		$polygon.color = Color(1, 1, 1)
-
-func _on_refreshTimer_timeout():
-	can_shoot = true
-	is_refreshing = false
-	can_deal_damage = false
-	$polygon.color = Color(0, 0, 1)
-	
 
 func _on_attackTimer_timeout():
 	can_attack = true

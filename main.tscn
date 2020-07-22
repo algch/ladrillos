@@ -43,6 +43,7 @@ position = Vector2( 360, 1218 )
 shape = SubResource( 1 )
 
 [node name="spawnTimer" type="Timer" parent="."]
+wait_time = 5.0
 autostart = true
 
 [node name="leftWall" type="StaticBody2D" parent="."]

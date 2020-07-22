@@ -18,10 +18,7 @@ polygon = PoolVector2Array( 10.194, 43.8811, 18.6697, 44.4108, 13.3724, 9.97825,
 [node name="speedDecreaseTimer" type="Timer" parent="."]
 wait_time = 0.25
 
-[node name="refreshTimer" type="Timer" parent="."]
-
 [node name="attackTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.25
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]
-[connection signal="timeout" from="refreshTimer" to="." method="_on_refreshTimer_timeout"]
 [connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
