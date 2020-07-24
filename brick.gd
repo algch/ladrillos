@@ -45,7 +45,6 @@ func handle_collision(bounce_dir, bounce_speed):
 func deal_damage():
 	health -= 1
 	check_health()
-	return health <= 0
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion
