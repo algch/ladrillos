@@ -16,25 +16,10 @@ func _ready():
 			health = 3
 		2:
 			health = 4
-	set_color()
-
-func set_color():
-	var color = Color(0, 0, 0)
-	match health:
-		1:
-			color = Color(1, 0, 0)
-		2:
-			color = Color(0.8, 0.2, 1)
-		3:
-			color = Color(0.6, 0.4, 1)
-		4:
-			color = Color(0.4, 0.6, 1)
-	$polygon.color = color
 
 func check_health():
 	if not health:
 		queue_free()
-	set_color()
 
 func handle_collision(bounce_dir, bounce_speed):
 	dir = bounce_dir
@@ -48,6 +33,7 @@ func deal_damage():
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion
+	$particles.rotation = total_motion.normalized().angle() - PI/2
 	var collision = move_and_collide(total_motion * delta)
 	if collision:
 		dir = dir.bounce(collision.normal).normalized()
