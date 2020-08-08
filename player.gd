@@ -39,8 +39,11 @@ func set_state(state):
 			can_deal_damage = true
 			can_shoot = true
 			var proportion = ($attackTimer.wait_time - $attackTimer.time_left) / $attackTimer.wait_time
-			dir_speed = proportion * max_dir_speed
-			dir = (aim_start - get_global_mouse_position()).normalized()
+			var input_speed = proportion * max_dir_speed
+			var input_dir = (aim_start - get_global_mouse_position()).normalized()
+			var resulting_motion = (dir * dir_speed) + (input_dir * input_speed)
+			dir = resulting_motion.normalized()
+			dir_speed = resulting_motion.length()
 			$speedDecreaseTimer.start()
 			$attackTimer.stop()
 			$polygon.color = Color(1, 1, 1)
@@ -75,13 +78,15 @@ func _physics_process(delta):
 	var collision = move_and_collide(total_motion * delta)
 	if collision:
 		var prev_dir = dir
+		var prev_dir_speed = dir_speed
 		dir = dir.bounce(collision.normal).normalized()
+		dir_speed /= 2
 		if collision.collider.has_method("handle_collision"):
 			collision.collider.handle_collision(-dir, dir_speed)
 
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
 			# refreshing state ?
-			collision.collider.deal_damage()
+			collision.collider.deal_damage(prev_dir_speed)
 			set_state(STATE.IDLE)
 
 func _on_speedDecreaseTimer_timeout():

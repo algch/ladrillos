@@ -6,19 +6,23 @@ var speed_decrease = 0
 var gravity_speed = 100
 var gravity_motion = Vector2.DOWN * gravity_speed
 
+var max_health = 0
 var health = 0
 
 func _ready():
 	match randi() % 3:
 		0:
-			health = 2
+			max_health = 200
+			health = max_health
 		1:
-			health = 3
+			max_health = 400
+			health = max_health
 		2:
-			health = 4
+			max_health = 600
+			health = max_health
 
 func check_health():
-	if not health:
+	if health <= 0:
 		queue_free()
 
 func handle_collision(bounce_dir, bounce_speed):
@@ -27,8 +31,14 @@ func handle_collision(bounce_dir, bounce_speed):
 	speed_decrease = dir_speed/10
 	$speedDecreaseTimer.start()
 
-func deal_damage():
-	health -= 1
+func _update_health_bar():
+	print("health ", health)
+	$healthBar.value = $healthBar.max_value * (health/max_health)
+
+func deal_damage(damage):
+	print("damage ", damage)
+	health -= damage
+	_update_health_bar()
 	check_health()
 
 func _physics_process(delta):
@@ -41,7 +51,7 @@ func _physics_process(delta):
 			handle_collision(-dir, dir_speed)
 
 		if collision.collider.has_method("deal_damage"):
-			collision.collider.deal_damage()
+			collision.collider.deal_damage(dir_speed)
 
 func _on_speedDecreaseTimer_timeout():
 	$speedDecreaseTimer.stop()

@@ -1,7 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://brick.gd" type="Script" id=1]
 [ext_resource path="res://sprites/stone.png" type="Texture" id=2]
+[ext_resource path="res://sprites/health_bar_over.png" type="Texture" id=3]
+[ext_resource path="res://sprites/health_bar_under.png" type="Texture" id=4]
+[ext_resource path="res://sprites/health_bar_progress.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 60.0
@@ -52,4 +55,18 @@ amount = 15
 lifetime = 2.0
 speed_scale = 2.5
 process_material = SubResource( 6 )
+
+[node name="healthBar" type="TextureProgress" parent="."]
+margin_left = 24.2509
+margin_top = -88.3886
+margin_right = 224.251
+margin_bottom = -48.3886
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_over = ExtResource( 3 )
+texture_progress = ExtResource( 5 )
+tint_progress = Color( 0.239216, 0.576471, 0.235294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]

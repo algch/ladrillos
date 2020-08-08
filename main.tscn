@@ -73,5 +73,6 @@ texture = ExtResource( 6 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+autoplay = true
 [connection signal="body_entered" from="turnEnder" to="." method="_on_turnEnder_body_entered"]
 [connection signal="timeout" from="spawnTimer" to="." method="spawn"]
