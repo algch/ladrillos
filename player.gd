@@ -9,7 +9,8 @@ var aim_start = null
 var is_aiming = false
 var can_deal_damage = false
 var dir = Vector2()
-var max_dir_speed = 500.0
+var max_dir_speed = 600.0
+var original_speed_decrease = 25.0
 var speed_decrease = 25.0
 var dir_speed = max_dir_speed
 
@@ -19,7 +20,7 @@ var fuel_decrease = 50.0
 var fuel_increase = 50.0
 
 var energy = 0.0
-var energy_increase = 50.0
+var energy_increase = 80.0
 
 var gravity_speed = 100.0
 var gravity_motion = Vector2.DOWN * gravity_speed
@@ -87,10 +88,9 @@ func _physics_process(delta):
 	var total_motion = dir_motion + gravity_motion
 	var collision = move_and_collide(total_motion * delta)
 	if collision:
-		var prev_dir = dir
 		var prev_dir_speed = dir_speed
 		dir = dir.bounce(collision.normal).normalized()
-		dir_speed /= 2
+		dir_speed /= 2.5
 		if collision.collider.has_method("handle_collision"):
 			collision.collider.handle_collision(-dir, dir_speed)
 
@@ -105,6 +105,7 @@ func _on_speedDecreaseTimer_timeout():
 	if dir_speed > 0:
 		$speedDecreaseTimer.start()
 	else:
+		speed_decrease = original_speed_decrease
 		dir = Vector2()
 		can_deal_damage = false
 		if current_state != STATE.AIMING:
@@ -114,7 +115,6 @@ func _on_attackTimer_timeout():
 	fuel -= fuel_decrease
 	energy += energy_increase
 	get_node("../fuelBar").value = get_node("../fuelBar").max_value * (fuel/max_fuel)
-	print("decrease fuel ", fuel)
 	if fuel > 0:
 		$attackTimer.start()
 	else:

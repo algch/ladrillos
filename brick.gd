@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var explosion_class = preload("res://explosion.tscn")
+
 var dir = Vector2()
 var dir_speed = 0
 var speed_decrease = 0
@@ -23,6 +25,9 @@ func _ready():
 
 func check_health():
 	if health <= 0:
+		var explosion = explosion_class.instance()
+		explosion.position = position
+		get_parent().add_child(explosion)
 		queue_free()
 
 func handle_collision(bounce_dir, bounce_speed):
@@ -41,7 +46,7 @@ func deal_damage(damage):
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion
-	$particles.rotation = total_motion.normalized().angle() - PI/2
+	$tail.rotation = total_motion.normalized().angle() - PI/2
 	var collision = move_and_collide(total_motion * delta)
 	if collision:
 		dir = dir.bounce(collision.normal).normalized()

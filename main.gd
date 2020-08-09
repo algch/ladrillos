@@ -18,5 +18,5 @@ func spawn():
 	var spawner = spawners[ randi() % len(spawners) ]
 	spawner.spawn()
 
-func score():
-	score += 1
+func score(points):
+	score += points

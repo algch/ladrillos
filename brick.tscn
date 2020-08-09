@@ -1,37 +1,15 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://brick.gd" type="Script" id=1]
-[ext_resource path="res://sprites/stone.png" type="Texture" id=2]
+[ext_resource path="res://sprites/meteorite.png" type="Texture" id=2]
 [ext_resource path="res://sprites/health_bar_over.png" type="Texture" id=3]
 [ext_resource path="res://sprites/health_bar_under.png" type="Texture" id=4]
 [ext_resource path="res://sprites/health_bar_progress.png" type="Texture" id=5]
+[ext_resource path="res://sprites/flake_particle.png" type="Texture" id=6]
+[ext_resource path="res://particles/meteorite_tail.tres" type="Material" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 60.0
-
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.451852, 0.851852 )
-colors = PoolColorArray( 0.832031, 0.0942535, 0.0942535, 1, 0.703125, 0.579529, 0.20874, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
-
-[sub_resource type="Curve" id=4]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.987342, 0.481818 ), -1.87832, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
-
-[sub_resource type="ParticlesMaterial" id=6]
-emission_shape = 2
-emission_box_extents = Vector3( 40, 10, 1 )
-flag_disable_z = true
-gravity = Vector3( 0, -100, 0 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 10.0
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
 
 [node name="brick" type="KinematicBody2D" groups=[
 "bricks",
@@ -46,15 +24,14 @@ wait_time = 0.25
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -0.55011, 1.97134 )
-scale = Vector2( 0.102308, 0.0999884 )
 texture = ExtResource( 2 )
 
-[node name="particles" type="Particles2D" parent="."]
-position = Vector2( 6.10352e-05, -3.0756e-05 )
-amount = 15
+[node name="tail" type="Particles2D" parent="."]
+amount = 20
 lifetime = 2.0
-speed_scale = 2.5
-process_material = SubResource( 6 )
+speed_scale = 2.0
+process_material = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="healthBar" type="TextureProgress" parent="."]
 margin_left = 24.2509

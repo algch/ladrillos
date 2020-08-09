@@ -36,7 +36,7 @@ position = Vector2( 521.915, -53.3419 )
 position = Vector2( 636.208, -50.1664 )
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 372.699, 866.17 )
+position = Vector2( 388.699, 486.17 )
 
 [node name="turnEnder" type="Area2D" parent="."]
 position = Vector2( 360, 1250 )
