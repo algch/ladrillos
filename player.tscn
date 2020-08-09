@@ -16,9 +16,13 @@ shape = SubResource( 1 )
 polygon = PoolVector2Array( 10.194, 43.8811, 18.6697, 44.4108, 13.3724, 9.97825, 9.66428, -7.50289, 46.2158, 0.443077, 46.2158, -7.50289, 13.3724, -14.9191, 4.36697, -20.2164, 9.66428, -38.7571, 1.71832, -47.7625, -9.40607, -37.6976, -6.75739, -18.6273, -20.0007, -13.8597, -39.6007, -13.8597, -41.7197, -5.9137, -17.8817, -6.97316, -15.2331, 7.85932, -21.0602, 43.3513, -12.5844, 47.5892, -8.34659, 8.38905, 6.4859, 8.91879 )
 
 [node name="speedDecreaseTimer" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.1
 
 [node name="attackTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.1
+
+[node name="fuelTimer" type="Timer" parent="."]
+wait_time = 0.1
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]
 [connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
+[connection signal="timeout" from="fuelTimer" to="." method="_on_fuelTimer_timeout"]

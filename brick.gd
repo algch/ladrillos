@@ -3,7 +3,7 @@ extends KinematicBody2D
 var dir = Vector2()
 var dir_speed = 0
 var speed_decrease = 0
-var gravity_speed = 100
+var gravity_speed = 150
 var gravity_motion = Vector2.DOWN * gravity_speed
 
 var max_health = 0
@@ -32,11 +32,9 @@ func handle_collision(bounce_dir, bounce_speed):
 	$speedDecreaseTimer.start()
 
 func _update_health_bar():
-	print("health ", health)
 	$healthBar.value = $healthBar.max_value * (health/max_health)
 
 func deal_damage(damage):
-	print("damage ", damage)
 	health -= damage
 	_update_health_bar()
 	check_health()

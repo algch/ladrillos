@@ -1,18 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://brickSpawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://music/Loop.ogg" type="AudioStream" id=3]
+[ext_resource path="res://music/Menu.ogg" type="AudioStream" id=3]
 [ext_resource path="res://main.gd" type="Script" id=4]
 [ext_resource path="res://portal.tscn" type="PackedScene" id=5]
 [ext_resource path="res://sprites/city.png" type="Texture" id=6]
+[ext_resource path="res://sprites/health_bar_progress.png" type="Texture" id=7]
+[ext_resource path="res://sprites/health_bar_over.png" type="Texture" id=8]
+[ext_resource path="res://sprites/health_bar_under.png" type="Texture" id=9]
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( -420, 0 )
 b = Vector2( 420, 0 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 320, 10 )
+extents = Vector2( 420, 10 )
 
 [node name="main" type="Node2D"]
 script = ExtResource( 4 )
@@ -74,5 +77,19 @@ texture = ExtResource( 6 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 autoplay = true
+
+[node name="fuelBar" type="TextureProgress" parent="."]
+margin_left = 49.7246
+margin_top = 1191.13
+margin_right = 249.725
+margin_bottom = 1231.13
+value = 100.0
+texture_under = ExtResource( 9 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 7 )
+tint_progress = Color( 0.137255, 0.207843, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="turnEnder" to="." method="_on_turnEnder_body_entered"]
 [connection signal="timeout" from="spawnTimer" to="." method="spawn"]

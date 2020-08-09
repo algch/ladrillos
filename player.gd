@@ -9,11 +9,19 @@ var aim_start = null
 var is_aiming = false
 var can_deal_damage = false
 var dir = Vector2()
-var max_dir_speed = 500
-var speed_decrease = 50
+var max_dir_speed = 500.0
+var speed_decrease = 25.0
 var dir_speed = max_dir_speed
 
-var gravity_speed = 100
+var max_fuel = 500.0
+var fuel = max_fuel
+var fuel_decrease = 50.0
+var fuel_increase = 50.0
+
+var energy = 0.0
+var energy_increase = 50.0
+
+var gravity_speed = 100.0
 var gravity_motion = Vector2.DOWN * gravity_speed
 
 enum STATE {IDLE, AIMING, ATTACK}
@@ -32,20 +40,22 @@ func set_state(state):
 			is_aiming = true
 			$polygon.color = Color(0, 1, 0)
 			aim_start = get_global_mouse_position()
+			$fuelTimer.stop()
 			$attackTimer.start()
 		STATE.ATTACK:
 			current_state = STATE.ATTACK
 			is_aiming = false
 			can_deal_damage = true
 			can_shoot = true
-			var proportion = ($attackTimer.wait_time - $attackTimer.time_left) / $attackTimer.wait_time
-			var input_speed = proportion * max_dir_speed
 			var input_dir = (aim_start - get_global_mouse_position()).normalized()
-			var resulting_motion = (dir * dir_speed) + (input_dir * input_speed)
+			var resulting_motion = (dir * dir_speed) + (input_dir * energy)
 			dir = resulting_motion.normalized()
 			dir_speed = resulting_motion.length()
 			$speedDecreaseTimer.start()
+			$fuelTimer.start()
 			$attackTimer.stop()
+			print("energy ", energy)
+			energy = 0
 			$polygon.color = Color(1, 1, 1)
 
 func _ready():
@@ -101,5 +111,20 @@ func _on_speedDecreaseTimer_timeout():
 			$polygon.color = Color(1, 1, 1)
 
 func _on_attackTimer_timeout():
-	$polygon.color = Color(1, 0, 0)
-	$attackTimer.stop()
+	fuel -= fuel_decrease
+	energy += energy_increase
+	get_node("../fuelBar").value = get_node("../fuelBar").max_value * (fuel/max_fuel)
+	print("decrease fuel ", fuel)
+	if fuel > 0:
+		$attackTimer.start()
+	else:
+		$polygon.color = Color(1, 0, 0)
+		$attackTimer.stop()
+
+func _on_fuelTimer_timeout():
+	fuel += fuel_increase
+	get_node("../fuelBar").value = get_node("../fuelBar").max_value * (fuel/max_fuel)
+	if fuel < max_fuel:
+		$fuelTimer.start()
+	else:
+		$fuelTimer.stop()
