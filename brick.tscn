@@ -22,12 +22,12 @@ shape = SubResource( 1 )
 [node name="speedDecreaseTimer" type="Timer" parent="."]
 wait_time = 0.25
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="."]
 position = Vector2( -0.55011, 1.97134 )
 texture = ExtResource( 2 )
 
 [node name="tail" type="Particles2D" parent="."]
-amount = 20
+amount = 30
 lifetime = 2.0
 speed_scale = 2.0
 process_material = ExtResource( 7 )

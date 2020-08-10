@@ -10,24 +10,29 @@ var gravity_motion = Vector2.DOWN * gravity_speed
 
 var max_health = 0
 var health = 0
+var score = 0
 
 func _ready():
 	match randi() % 3:
 		0:
 			max_health = 200
 			health = max_health
+			score = 2
 		1:
 			max_health = 400
 			health = max_health
+			score = 3
 		2:
 			max_health = 600
 			health = max_health
+			score = 5
 
 func check_health():
 	if health <= 0:
 		var explosion = explosion_class.instance()
 		explosion.position = position
 		get_parent().add_child(explosion)
+		get_parent().increment_score(score)
 		queue_free()
 
 func handle_collision(bounce_dir, bounce_speed):
@@ -43,6 +48,9 @@ func deal_damage(damage):
 	health -= damage
 	_update_health_bar()
 	check_health()
+
+func _process(_delta):
+	$sprite.rotation += deg2rad(1)
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion
