@@ -97,6 +97,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="cityHealth" type="TextureProgress" parent="."]
+margin_left = 57.1465
+margin_top = 1066.73
+margin_right = 97.1465
+margin_bottom = 1106.73
+value = 100.0
+texture_under = ExtResource( 9 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 7 )
+tint_progress = Color( 0.215686, 0.607843, 0.286275, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="scoreLbl" type="Label" parent="."]
 margin_left = 590.333
 margin_top = 1066.79

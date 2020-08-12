@@ -27,13 +27,16 @@ func _ready():
 			health = max_health
 			score = 5
 
+func destroy():
+	var explosion = explosion_class.instance()
+	explosion.position = position
+	get_parent().add_child(explosion)
+	get_parent().increment_score(score)
+	queue_free()
+
 func check_health():
 	if health <= 0:
-		var explosion = explosion_class.instance()
-		explosion.position = position
-		get_parent().add_child(explosion)
-		get_parent().increment_score(score)
-		queue_free()
+		destroy()
 
 func handle_collision(bounce_dir, bounce_speed):
 	dir = bounce_dir

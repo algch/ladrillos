@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var bullet_class = preload("res://bullet.tscn")
+var explosion_class = preload("res://explosion.tscn")
 
 signal player_shooted
 
@@ -61,6 +62,13 @@ func set_state(state):
 
 func _ready():
 	connect("player_shooted", get_parent(), "_on_player_shooted")
+
+func destroy():
+	var explosion = explosion_class.instance()
+	explosion.position = position
+	get_parent().add_child(explosion)
+	get_parent().deploy_new_player()
+	queue_free()
 
 func _input(event):
 	# is idle ?
