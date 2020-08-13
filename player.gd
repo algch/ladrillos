@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var bullet_class = preload("res://bullet.tscn")
+var graphical_repr_class = preload("res://graphicalRepr.tscn")
 var explosion_class = preload("res://explosion.tscn")
 
 signal player_shooted
@@ -40,7 +40,6 @@ func set_state(state):
 			current_state = STATE.AIMING
 			can_shoot = false
 			is_aiming = true
-			$polygon.color = Color(0, 1, 0)
 			aim_start = get_global_mouse_position()
 			$fuelTimer.stop()
 			$attackTimer.start()
@@ -58,10 +57,19 @@ func set_state(state):
 			$attackTimer.stop()
 			print("energy ", energy)
 			energy = 0
-			$polygon.color = Color(1, 1, 1)
 
 func _ready():
 	connect("player_shooted", get_parent(), "_on_player_shooted")
+
+func get_graphical_repr():
+	var graphical_repr = graphical_repr_class.instance()
+	graphical_repr.texture = $sprite.texture
+	graphical_repr.original = self
+	graphical_repr.transform = transform
+	return graphical_repr
+
+func get_repr_rotation():
+	return $sprite.rotation
 
 func destroy():
 	var explosion = explosion_class.instance()
@@ -82,7 +90,7 @@ func _input(event):
 func _process(_delta):
 	update()
 	if is_aiming:
-		$polygon.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
+		$sprite.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
 
 func _draw():
 	if is_aiming:
@@ -116,8 +124,6 @@ func _on_speedDecreaseTimer_timeout():
 		speed_decrease = original_speed_decrease
 		dir = Vector2()
 		can_deal_damage = false
-		if current_state != STATE.AIMING:
-			$polygon.color = Color(1, 1, 1)
 
 func _on_attackTimer_timeout():
 	fuel -= fuel_decrease
@@ -126,7 +132,6 @@ func _on_attackTimer_timeout():
 	if fuel > 0:
 		$attackTimer.start()
 	else:
-		$polygon.color = Color(1, 0, 0)
 		$attackTimer.stop()
 
 func _on_fuelTimer_timeout():

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var explosion_class = preload("res://explosion.tscn")
+var graphical_repr_class = preload("res://graphicalRepr.tscn")
 
 var dir = Vector2()
 var dir_speed = 0
@@ -26,6 +27,16 @@ func _ready():
 			max_health = 600
 			health = max_health
 			score = 5
+
+func get_graphical_repr():
+	var graphical_repr = graphical_repr_class.instance()
+	graphical_repr.texture = $sprite.texture
+	graphical_repr.original = self
+	graphical_repr.transform = transform
+	return graphical_repr
+
+func get_repr_rotation():
+	return $sprite.rotation
 
 func destroy():
 	var explosion = explosion_class.instance()
