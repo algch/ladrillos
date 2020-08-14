@@ -15,7 +15,7 @@
 a = Vector2( -420, 0 )
 b = Vector2( 420, 0 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 50
 font_data = ExtResource( 10 )
 
@@ -66,7 +66,6 @@ texture = ExtResource( 6 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-autoplay = true
 
 [node name="fuelBar" type="TextureProgress" parent="."]
 margin_left = 49.7246
@@ -101,7 +100,7 @@ margin_left = 590.333
 margin_top = 1066.79
 margin_right = 630.333
 margin_bottom = 1129.79
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false

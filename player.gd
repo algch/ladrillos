@@ -6,24 +6,20 @@ var explosion_class = preload("res://explosion.tscn")
 signal player_shooted
 
 var can_shoot = true
-var aim_start = null
+var aim_start = Vector2()
 var is_aiming = false
 var can_deal_damage = false
 var dir = Vector2()
-var max_dir_speed = 600.0
-var original_speed_decrease = 25.0
-var speed_decrease = 25.0
-var dir_speed = max_dir_speed
-
-var max_fuel = 500.0
-var fuel = max_fuel
-var fuel_decrease = 50.0
-var fuel_increase = 50.0
+var original_speed_decrease = 10.0
+var speed_decrease = original_speed_decrease
+var dir_speed = 0
 
 var energy = 0.0
-var energy_increase = 80.0
+var max_energy = 1000.0
+var charge_energy_time = 0.5
+onready var energy_increase = max_energy / (charge_energy_time / $attackTimer.wait_time)
 
-var gravity_speed = 100.0
+var gravity_speed = 200.0
 var gravity_motion = Vector2.DOWN * gravity_speed
 
 enum STATE {IDLE, AIMING, ATTACK}
@@ -41,7 +37,7 @@ func set_state(state):
 			can_shoot = false
 			is_aiming = true
 			aim_start = get_global_mouse_position()
-			$fuelTimer.stop()
+			$chargeTimer.stop()
 			$attackTimer.start()
 		STATE.ATTACK:
 			current_state = STATE.ATTACK
@@ -51,15 +47,14 @@ func set_state(state):
 			var input_dir = (aim_start - get_global_mouse_position()).normalized()
 			var resulting_motion = (dir * dir_speed) + (input_dir * energy)
 			dir = resulting_motion.normalized()
-			dir_speed = resulting_motion.length()
+			# dir_speed = resulting_motion.length()
+			dir_speed = energy
 			$speedDecreaseTimer.start()
-			$fuelTimer.start()
+			$chargeTimer.start()
 			$attackTimer.stop()
-			print("energy ", energy)
-			energy = 0
 
 func _ready():
-	connect("player_shooted", get_parent(), "_on_player_shooted")
+	var _x  = connect("player_shooted", get_parent(), "_on_player_shooted")
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()
@@ -106,19 +101,20 @@ func _physics_process(delta):
 	if collision:
 		var prev_dir_speed = dir_speed
 		dir = dir.bounce(collision.normal).normalized()
-		dir_speed /= 2.5
+		dir_speed *= 0.25
 		if collision.collider.has_method("handle_collision"):
-			collision.collider.handle_collision(-dir, dir_speed)
+			collision.collider.handle_collision(-dir, prev_dir_speed)
 
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
 			# refreshing state ?
-			collision.collider.deal_damage(prev_dir_speed)
+			collision.collider.deal_damage(prev_dir_speed, max_energy)
 			set_state(STATE.IDLE)
 
 func _on_speedDecreaseTimer_timeout():
 	$speedDecreaseTimer.stop()
 	dir_speed -= speed_decrease
 	if dir_speed > 0:
+		speed_decrease *= 1.1
 		$speedDecreaseTimer.start()
 	else:
 		speed_decrease = original_speed_decrease
@@ -126,18 +122,18 @@ func _on_speedDecreaseTimer_timeout():
 		can_deal_damage = false
 
 func _on_attackTimer_timeout():
-	fuel -= fuel_decrease
 	energy += energy_increase
-	get_node("../fuelBar").value = get_node("../fuelBar").max_value * (fuel/max_fuel)
-	if fuel > 0:
+	get_node("../fuelBar").value = get_node("../fuelBar").max_value - get_node("../fuelBar").max_value * (energy/max_energy)
+	print(get_node("../fuelBar").value)
+	if energy < max_energy:
 		$attackTimer.start()
 	else:
 		$attackTimer.stop()
 
-func _on_fuelTimer_timeout():
-	fuel += fuel_increase
-	get_node("../fuelBar").value = get_node("../fuelBar").max_value * (fuel/max_fuel)
-	if fuel < max_fuel:
-		$fuelTimer.start()
+func _on_chargeTimer_timeout():
+	energy -= energy_increase
+	get_node("../fuelBar").value = get_node("../fuelBar").max_value - get_node("../fuelBar").max_value * (energy/max_energy)
+	if energy > 0:
+		$chargeTimer.start()
 	else:
-		$fuelTimer.stop()
+		$chargeTimer.stop()

@@ -4,9 +4,10 @@ var explosion_class = preload("res://explosion.tscn")
 var graphical_repr_class = preload("res://graphicalRepr.tscn")
 
 var dir = Vector2()
+var max_dir_speed = 300.0
 var dir_speed = 0
 var speed_decrease = 0
-var gravity_speed = 150
+var gravity_speed = 300.0
 var gravity_motion = Vector2.DOWN * gravity_speed
 
 var max_health = 0
@@ -51,20 +52,20 @@ func check_health():
 
 func handle_collision(bounce_dir, bounce_speed):
 	dir = bounce_dir
-	dir_speed = bounce_speed
+	dir_speed = bounce_speed if bounce_speed <= max_dir_speed else max_dir_speed
 	speed_decrease = dir_speed/10
 	$speedDecreaseTimer.start()
 
 func _update_health_bar():
 	$healthBar.value = $healthBar.max_value * (health/max_health)
 
-func deal_damage(damage):
-	health -= damage
+func deal_damage(damage, max_damage):
+	health -= 400 * (damage/max_damage)
 	_update_health_bar()
 	check_health()
 
 func _process(_delta):
-	$sprite.rotation += deg2rad(1)
+	$sprite.rotation += deg2rad(3)
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion
@@ -76,7 +77,7 @@ func _physics_process(delta):
 			handle_collision(-dir, dir_speed)
 
 		if collision.collider.has_method("deal_damage"):
-			collision.collider.deal_damage(dir_speed)
+			collision.collider.deal_damage(dir_speed, gravity_speed)
 
 func _on_speedDecreaseTimer_timeout():
 	$speedDecreaseTimer.stop()
