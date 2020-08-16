@@ -13,14 +13,18 @@ var dir = Vector2()
 var original_speed_decrease = 10.0
 var speed_decrease = original_speed_decrease
 var dir_speed = 0
+var damage = 0
 
 var energy = 0.0
 var max_energy = 1000.0
 var charge_energy_time = 0.5
 onready var energy_increase = max_energy / (charge_energy_time / $attackTimer.wait_time)
 
-var gravity_speed = 200.0
+var original_gravity_speed = 200.0
+var gravity_speed = original_gravity_speed
 var gravity_motion = Vector2.DOWN * gravity_speed
+
+var gradient = Gradient.new()
 
 enum STATE {IDLE, AIMING, ATTACK}
 var current_state = STATE.IDLE
@@ -32,6 +36,8 @@ func set_state(state):
 			can_shoot = true
 			is_aiming = false
 			can_deal_damage = false
+			$graphics/arrow.modulate.a = 0
+			$graphics/particles.emitting = false
 		STATE.AIMING:
 			current_state = STATE.AIMING
 			can_shoot = false
@@ -39,6 +45,7 @@ func set_state(state):
 			aim_start = get_global_mouse_position()
 			$chargeTimer.stop()
 			$attackTimer.start()
+			$graphics/particles.emitting = false
 		STATE.ATTACK:
 			current_state = STATE.ATTACK
 			is_aiming = false
@@ -47,24 +54,29 @@ func set_state(state):
 			var input_dir = (aim_start - get_global_mouse_position()).normalized()
 			var resulting_motion = (dir * dir_speed) + (input_dir * energy)
 			dir = resulting_motion.normalized()
-			# dir_speed = resulting_motion.length()
 			dir_speed = energy
+			damage = energy / max_energy
 			$speedDecreaseTimer.start()
 			$chargeTimer.start()
 			$attackTimer.stop()
+			$graphics/arrow.modulate.a = 0
+			$graphics/particles.emitting = true
 
 func _ready():
 	var _x  = connect("player_shooted", get_parent(), "_on_player_shooted")
+	gradient.set_color(0, ColorPalette.BLUE)
+	gradient.set_color(1, ColorPalette.PURPLE)
+	set_state(STATE.IDLE)
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()
-	graphical_repr.texture = $sprite.texture
+	graphical_repr.texture = $graphics/robot.texture
 	graphical_repr.original = self
 	graphical_repr.transform = transform
 	return graphical_repr
 
 func get_repr_rotation():
-	return $sprite.rotation
+	return $graphics.rotation
 
 func destroy():
 	var explosion = explosion_class.instance()
@@ -78,14 +90,17 @@ func _input(event):
 	if event.is_action_pressed("shoot") and can_shoot:
 		set_state(STATE.AIMING)
 
-	if event.is_action_released("shoot"):
+	if event.is_action_released("shoot") and current_state == STATE.AIMING:
 		# attack state
 		set_state(STATE.ATTACK)
 
 func _process(_delta):
 	update()
-	if is_aiming:
-		$sprite.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
+	if current_state == STATE.AIMING:
+		$graphics.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
+		$graphics/arrow.modulate = gradient.interpolate(sin($graphics.rotation - PI/2))
+		print("graphics rotation ", $graphics.rotation)
+		$graphics/arrow.modulate.a = energy/max_energy
 
 func _draw():
 	if is_aiming:
@@ -107,24 +122,25 @@ func _physics_process(delta):
 
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
 			# refreshing state ?
-			collision.collider.deal_damage(prev_dir_speed, max_energy)
+			collision.collider.deal_damage(damage)
 			set_state(STATE.IDLE)
 
 func _on_speedDecreaseTimer_timeout():
 	$speedDecreaseTimer.stop()
 	dir_speed -= speed_decrease
 	if dir_speed > 0:
-		speed_decrease *= 1.1
+		speed_decrease *= 1.05
 		$speedDecreaseTimer.start()
 	else:
 		speed_decrease = original_speed_decrease
 		dir = Vector2()
 		can_deal_damage = false
+		if current_state != STATE.AIMING:
+			set_state(STATE.IDLE)
 
 func _on_attackTimer_timeout():
 	energy += energy_increase
 	get_node("../fuelBar").value = get_node("../fuelBar").max_value - get_node("../fuelBar").max_value * (energy/max_energy)
-	print(get_node("../fuelBar").value)
 	if energy < max_energy:
 		$attackTimer.start()
 	else:

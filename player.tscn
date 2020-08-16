@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player.png" type="Texture" id=2]
+[ext_resource path="res://sprites/arrow.png" type="Texture" id=3]
+[ext_resource path="res://particles/robot_tail.tres" type="Material" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
@@ -24,8 +26,21 @@ wait_time = 0.1
 [node name="chargeTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="graphics" type="Node2D" parent="."]
+
+[node name="robot" type="Sprite" parent="graphics"]
 texture = ExtResource( 2 )
+
+[node name="arrow" type="Sprite" parent="graphics"]
+position = Vector2( 0, -80 )
+texture = ExtResource( 3 )
+
+[node name="particles" type="Particles2D" parent="graphics"]
+emitting = false
+amount = 100
+lifetime = 2.5
+one_shot = true
+process_material = ExtResource( 4 )
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]
 [connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="chargeTimer" to="." method="_on_chargeTimer_timeout"]
