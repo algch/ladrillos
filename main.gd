@@ -22,11 +22,11 @@ func _on_turnEnder_body_entered(body):
 	city_health -= 10
 	$cityHealth.value = city_health
 
-	body.destroy()
+	body.destroy(false)
 
 func deploy_new_player():
 	var deployer = deployer_class.instance()
-	deployer.position = Vector2(360, 640)
+	deployer.position = Vector2(280, 640)
 	add_child(deployer)
 
 func spawn():

@@ -1,12 +1,94 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player.png" type="Texture" id=2]
-[ext_resource path="res://sprites/arrow.png" type="Texture" id=3]
 [ext_resource path="res://particles/robot_tail.tres" type="Material" id=4]
+[ext_resource path="res://animations/pedro_sola/pedro_sola004.png" type="Texture" id=8]
+[ext_resource path="res://animations/pedro_sola/pedro_sola008.png" type="Texture" id=10]
+[ext_resource path="res://animations/pedro_sola/pedro_sola012.png" type="Texture" id=15]
+[ext_resource path="res://animations/pedro_sola/pedro_sola016.png" type="Texture" id=19]
+[ext_resource path="res://animations/pedro_sola/pedro_sola020.png" type="Texture" id=22]
+[ext_resource path="res://animations/pedro_sola/pedro_sola024.png" type="Texture" id=27]
+[ext_resource path="res://animations/pedro_sola/pedro_sola028.png" type="Texture" id=28]
+[ext_resource path="res://animations/pedro_sola/pedro_sola040.png" type="Texture" id=35]
+[ext_resource path="res://animations/pedro_sola/pedro_sola032.png" type="Texture" id=38]
+[ext_resource path="res://animations/pedro_sola/pedro_sola036.png" type="Texture" id=41]
+[ext_resource path="res://animations/pedro_sola/pedro_sola044.png" type="Texture" id=47]
+[ext_resource path="res://animations/pedro_sola/pedro_sola048.png" type="Texture" id=51]
+[ext_resource path="res://animations/pedro_sola/pedro_sola052.png" type="Texture" id=54]
+[ext_resource path="res://animations/pedro_sola/pedro_sola056.png" type="Texture" id=57]
+[ext_resource path="res://animations/pedro_sola/pedro_sola060.png" type="Texture" id=61]
+[ext_resource path="res://animations/pedro_sola/pedro_sola064.png" type="Texture" id=65]
+[ext_resource path="res://animations/pedro_sola/pedro_sola068.png" type="Texture" id=69]
+[ext_resource path="res://animations/pedro_sola/pedro_sola072.png" type="Texture" id=73]
+[ext_resource path="res://animations/pedro_sola/pedro_sola076.png" type="Texture" id=78]
+[ext_resource path="res://animations/pedro_sola/pedro_sola080.png" type="Texture" id=82]
+[ext_resource path="res://animations/pedro_sola/pedro_sola084.png" type="Texture" id=85]
+[ext_resource path="res://animations/pedro_sola/pedro_sola088.png" type="Texture" id=89]
+[ext_resource path="res://animations/pedro_sola/pedro_sola092.png" type="Texture" id=93]
+[ext_resource path="res://animations/pedro_sola/pedro_sola096.png" type="Texture" id=99]
+[ext_resource path="res://animations/pedro_sola/pedro_sola100.png" type="Texture" id=100]
+[ext_resource path="res://animations/pedro_sola/pedro_sola104.png" type="Texture" id=102]
+[ext_resource path="res://animations/pedro_sola/pedro_sola108.png" type="Texture" id=112]
+[ext_resource path="res://animations/pedro_sola/pedro_sola116.png" type="Texture" id=114]
+[ext_resource path="res://animations/pedro_sola/pedro_sola112.png" type="Texture" id=116]
+[ext_resource path="res://animations/pedro_sola/pedro_sola120.png" type="Texture" id=124]
+[ext_resource path="res://animations/pedro_sola/pedro_sola124.png" type="Texture" id=130]
+[ext_resource path="res://animations/pedro_sola/pedro_sola128.png" type="Texture" id=135]
+[ext_resource path="res://animations/pedro_sola/pedro_sola132.png" type="Texture" id=136]
+[ext_resource path="res://animations/pedro_sola/pedro_sola136.png" type="Texture" id=140]
+[ext_resource path="res://animations/pedro_sola/pedro_sola140.png" type="Texture" id=144]
+[ext_resource path="res://animations/pedro_sola/pedro_sola144.png" type="Texture" id=148]
+[ext_resource path="res://animations/pedro_sola/pedro_sola148.png" type="Texture" id=152]
+[ext_resource path="res://animations/pedro_sola/pedro_sola152.png" type="Texture" id=156]
+[ext_resource path="res://animations/pedro_sola/pedro_sola156.png" type="Texture" id=160]
+[ext_resource path="res://animations/pedro_sola/pedro_sola176.png" type="Texture" id=168]
+[ext_resource path="res://animations/pedro_sola/pedro_sola160.png" type="Texture" id=173]
+[ext_resource path="res://animations/pedro_sola/pedro_sola164.png" type="Texture" id=177]
+[ext_resource path="res://animations/pedro_sola/pedro_sola168.png" type="Texture" id=179]
+[ext_resource path="res://animations/pedro_sola/pedro_sola172.png" type="Texture" id=183]
+[ext_resource path="res://animations/pedro_sola/pedro_sola180.png" type="Texture" id=184]
+[ext_resource path="res://animations/pedro_sola/pedro_sola184.png" type="Texture" id=189]
+[ext_resource path="res://animations/pedro_sola/pedro_sola188.png" type="Texture" id=192]
+[ext_resource path="res://animations/pedro_sola/pedro_sola192.png" type="Texture" id=196]
+[ext_resource path="res://animations/pedro_sola/pedro_sola200.png" type="Texture" id=198]
+[ext_resource path="res://animations/pedro_sola/pedro_sola196.png" type="Texture" id=199]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 10 ), ExtResource( 15 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 38 ), ExtResource( 41 ), ExtResource( 35 ), ExtResource( 47 ), ExtResource( 51 ), ExtResource( 54 ), ExtResource( 57 ), ExtResource( 61 ), ExtResource( 65 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 78 ), ExtResource( 82 ), ExtResource( 85 ), ExtResource( 89 ), ExtResource( 93 ), ExtResource( 99 ), ExtResource( 100 ), ExtResource( 102 ), ExtResource( 112 ), ExtResource( 116 ), ExtResource( 114 ), ExtResource( 124 ), ExtResource( 130 ), ExtResource( 135 ), ExtResource( 136 ), ExtResource( 140 ), ExtResource( 144 ), ExtResource( 148 ), ExtResource( 152 ), ExtResource( 156 ), ExtResource( 160 ), ExtResource( 173 ), ExtResource( 177 ), ExtResource( 179 ), ExtResource( 183 ), ExtResource( 168 ), ExtResource( 184 ), ExtResource( 189 ), ExtResource( 192 ), ExtResource( 196 ), ExtResource( 199 ), ExtResource( 198 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.740741 )
+colors = PoolColorArray( 0.145098, 0.643137, 0.878431, 1, 0.4, 0.0901961, 0.67451, 1 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.981013, 0.454545 ), 3.59091, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 10.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 7 )
 
 [node name="player" type="KinematicBody2D" groups=[
 "player",
@@ -29,18 +111,26 @@ wait_time = 0.1
 [node name="graphics" type="Node2D" parent="."]
 
 [node name="robot" type="Sprite" parent="graphics"]
+visible = false
 texture = ExtResource( 2 )
 
-[node name="arrow" type="Sprite" parent="graphics"]
-position = Vector2( 0, -80 )
-texture = ExtResource( 3 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="graphics"]
+frames = SubResource( 2 )
+frame = 17
+playing = true
 
-[node name="particles" type="Particles2D" parent="graphics"]
-emitting = false
+[node name="tail" type="Particles2D" parent="graphics"]
 amount = 100
 lifetime = 2.5
-one_shot = true
+fract_delta = false
+local_coords = false
 process_material = ExtResource( 4 )
+
+[node name="charge" type="Particles2D" parent="graphics"]
+emitting = false
+amount = 50
+lifetime = 1.5
+process_material = SubResource( 5 )
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]
 [connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="chargeTimer" to="." method="_on_chargeTimer_timeout"]

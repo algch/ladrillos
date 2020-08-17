@@ -17,7 +17,7 @@ var score = 1
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()
-	graphical_repr.texture = $sprite.texture
+	graphical_repr.set_texture($sprite.texture)
 	graphical_repr.original = self
 	graphical_repr.transform = transform
 	return graphical_repr
@@ -25,16 +25,17 @@ func get_graphical_repr():
 func get_repr_rotation():
 	return $sprite.rotation
 
-func destroy():
+func destroy(increase):
 	var explosion = explosion_class.instance()
 	explosion.position = position
 	get_parent().add_child(explosion)
-	get_parent().increment_score(score)
+	if increase:
+		get_parent().increment_score(score)
 	queue_free()
 
 func check_health():
 	if health <= 0:
-		destroy()
+		destroy(true)
 
 func handle_collision(bounce_dir, bounce_speed):
 	dir = bounce_dir

@@ -21,17 +21,18 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="container"]
-margin_right = 346.0
+margin_right = 304.0
 margin_bottom = 33.0
 custom_fonts/font = SubResource( 1 )
-text = "DEPLOYING NEW ROBOT"
+custom_colors/font_color = Color( 0.0745098, 0.0352941, 0.00392157, 1 )
+text = "Deploying New Pedrito"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="bar" type="TextureProgress" parent="container"]
 margin_top = 37.0
-margin_right = 346.0
+margin_right = 304.0
 margin_bottom = 57.0
 texture_under = ExtResource( 1 )
 texture_over = ExtResource( 3 )

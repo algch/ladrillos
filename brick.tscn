@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://brick.gd" type="Script" id=1]
 [ext_resource path="res://sprites/meteorite.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://sprites/health_bar_progress.png" type="Texture" id=5]
 [ext_resource path="res://sprites/flake_particle.png" type="Texture" id=6]
 [ext_resource path="res://particles/meteorite_tail.tres" type="Material" id=7]
+[ext_resource path="res://sprites/mayonesa.png" type="Texture" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 60.0
@@ -21,15 +22,9 @@ shape = SubResource( 1 )
 wait_time = 0.25
 
 [node name="sprite" type="Sprite" parent="."]
+visible = false
 position = Vector2( -0.55011, 1.97134 )
 texture = ExtResource( 2 )
-
-[node name="tail" type="Particles2D" parent="."]
-amount = 30
-lifetime = 2.0
-speed_scale = 2.0
-process_material = ExtResource( 7 )
-texture = ExtResource( 6 )
 
 [node name="healthBar" type="TextureProgress" parent="."]
 margin_left = 24.2509
@@ -44,4 +39,16 @@ tint_progress = Color( 0.239216, 0.576471, 0.235294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -0.793701, 33.3354 )
+scale = Vector2( 0.6977, 0.486779 )
+texture = ExtResource( 8 )
+
+[node name="tail" type="Particles2D" parent="."]
+amount = 30
+lifetime = 2.0
+speed_scale = 2.0
+process_material = ExtResource( 7 )
+texture = ExtResource( 6 )
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]

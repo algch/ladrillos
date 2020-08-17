@@ -25,6 +25,7 @@ var gravity_speed = original_gravity_speed
 var gravity_motion = Vector2.DOWN * gravity_speed
 
 var gradient = Gradient.new()
+onready var arrow = get_node("../arrow")
 
 enum STATE {IDLE, AIMING, ATTACK}
 var current_state = STATE.IDLE
@@ -36,8 +37,9 @@ func set_state(state):
 			can_shoot = true
 			is_aiming = false
 			can_deal_damage = false
-			$graphics/arrow.modulate.a = 0
-			$graphics/particles.emitting = false
+			arrow.modulate.a = 0
+			$graphics/tail.emitting = false
+			$graphics/charge.emitting = false
 		STATE.AIMING:
 			current_state = STATE.AIMING
 			can_shoot = false
@@ -45,7 +47,9 @@ func set_state(state):
 			aim_start = get_global_mouse_position()
 			$chargeTimer.stop()
 			$attackTimer.start()
-			$graphics/particles.emitting = false
+			arrow.set_global_position(aim_start)
+			$graphics/tail.emitting = false
+			$graphics/charge.emitting = true
 		STATE.ATTACK:
 			current_state = STATE.ATTACK
 			is_aiming = false
@@ -59,8 +63,9 @@ func set_state(state):
 			$speedDecreaseTimer.start()
 			$chargeTimer.start()
 			$attackTimer.stop()
-			$graphics/arrow.modulate.a = 0
-			$graphics/particles.emitting = true
+			arrow.modulate.a = 0
+			$graphics/tail.emitting = true
+			$graphics/charge.emitting = false
 
 func _ready():
 	var _x  = connect("player_shooted", get_parent(), "_on_player_shooted")
@@ -70,15 +75,16 @@ func _ready():
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()
-	graphical_repr.texture = $graphics/robot.texture
+	graphical_repr.set_frames($graphics/AnimatedSprite.get_sprite_frames())
 	graphical_repr.original = self
 	graphical_repr.transform = transform
+	graphical_repr.play($graphics/AnimatedSprite.get_animation(), $graphics/AnimatedSprite.get_frame())
 	return graphical_repr
 
 func get_repr_rotation():
 	return $graphics.rotation
 
-func destroy():
+func destroy(_increase):
 	var explosion = explosion_class.instance()
 	explosion.position = position
 	get_parent().add_child(explosion)
@@ -98,16 +104,10 @@ func _process(_delta):
 	update()
 	if current_state == STATE.AIMING:
 		$graphics.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
-		$graphics/arrow.modulate = gradient.interpolate(sin($graphics.rotation - PI/2))
+		arrow.rotation = $graphics.rotation
+		arrow.modulate = gradient.interpolate(sin($graphics.rotation - PI/2))
 		print("graphics rotation ", $graphics.rotation)
-		$graphics/arrow.modulate.a = energy/max_energy
-
-func _draw():
-	if is_aiming:
-		var start = aim_start - position
-		var end = get_global_mouse_position() - position
-		draw_line(start, end, Color(1, 1, 1), 2)
-	
+		arrow.modulate.a = energy/max_energy
 
 func _physics_process(delta):
 	var dir_motion = dir * dir_speed
