@@ -6,6 +6,7 @@ var deployer_class = preload("res://deployer.tscn")
 var dir = Vector2()
 var score = 0
 var city_health = 100
+var difficulty = 1
 
 func _ready():
 	randomize()
@@ -34,6 +35,10 @@ func spawn():
 	var spawner = spawners[ randi() % len(spawners) ]
 	spawner.spawn()
 
+func updateDifficulty():
+	difficulty += score/100.0 
+
 func increment_score(points):
 	score += points
 	$scoreLbl.set_text(str(score))
+	updateDifficulty()

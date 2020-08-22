@@ -13,7 +13,11 @@ var gravity_motion = Vector2.DOWN * gravity_speed
 var max_health = 100
 var health = max_health
 var score = 1
+var difficulty
 
+func _ready():
+	var main = get_node("..")
+	difficulty = main.difficulty
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()

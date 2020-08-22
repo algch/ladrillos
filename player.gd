@@ -106,7 +106,6 @@ func _process(_delta):
 		$graphics.rotation = (aim_start - get_global_mouse_position()).angle() + PI/2 - rotation
 		arrow.rotation = $graphics.rotation
 		arrow.modulate = gradient.interpolate(sin($graphics.rotation - PI/2))
-		print("graphics rotation ", $graphics.rotation)
 		arrow.modulate.a = energy/max_energy
 
 func _physics_process(delta):

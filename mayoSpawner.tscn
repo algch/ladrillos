@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mayoSpawner.gd" type="Script" id=1]
+
+[node name="mayoSpawner" type="Node2D" groups=[
+"spawners",
+]]
+script = ExtResource( 1 )
