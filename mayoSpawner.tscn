@@ -6,3 +6,11 @@
 "spawners",
 ]]
 script = ExtResource( 1 )
+
+[node name="spawnTimer" type="Timer" parent="."]
+
+[node name="p1" type="Position2D" parent="."]
+
+[node name="p2" type="Position2D" parent="."]
+position = Vector2( 600, 0 )
+[connection signal="timeout" from="spawnTimer" to="." method="_on_spawnTimer_timeout"]

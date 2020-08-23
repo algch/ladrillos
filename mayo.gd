@@ -21,13 +21,15 @@ func _ready():
 
 func get_graphical_repr():
 	var graphical_repr = graphical_repr_class.instance()
-	graphical_repr.set_texture($sprite.texture)
+	graphical_repr.set_texture("back", $graphics/back.texture)
+	graphical_repr.get_node("back").transform = $graphics/back.transform
+	graphical_repr.set_texture("sprite", $graphics/sprite.texture)
 	graphical_repr.original = self
 	graphical_repr.transform = transform
 	return graphical_repr
 
 func get_repr_rotation():
-	return $sprite.rotation
+	return $graphics.rotation
 
 func destroy(increase):
 	var explosion = explosion_class.instance()
@@ -48,7 +50,9 @@ func handle_collision(bounce_dir, bounce_speed):
 	$speedDecreaseTimer.start()
 
 func _update_health_bar():
-	$healthBar.value = $healthBar.max_value * (health/max_health)
+	var health_ratio = (health/max_health)
+	$graphics/back.scale.y = 1 * health_ratio
+	$graphics/back.position.y = 64 - (64*health_ratio)
 
 func deal_damage(damage):
 	health -= max_health * damage
@@ -56,7 +60,7 @@ func deal_damage(damage):
 	check_health()
 
 func _process(_delta):
-	$sprite.rotation += deg2rad(3)
+	$graphics.rotation += deg2rad(3)
 
 func _physics_process(delta):
 	var total_motion = (dir * dir_speed) + gravity_motion

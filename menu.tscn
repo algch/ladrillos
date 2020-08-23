@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://fonts/Rowdies-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/Rowdies-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://menu.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -142.5
+margin_top = -43.5
+margin_right = 142.5
+margin_bottom = 43.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 285.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 1 )
+text = "GAME OVER"
+
+[node name="restart" type="Button" parent="VBoxContainer"]
+margin_top = 67.0
+margin_right = 285.0
+margin_bottom = 93.0
+custom_fonts/font = SubResource( 2 )
+text = "RESTART"
+[connection signal="pressed" from="VBoxContainer/restart" to="." method="_on_restart_pressed"]

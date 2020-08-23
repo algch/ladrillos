@@ -1,16 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://sprites/health_bar_under.png" type="Texture" id=1]
-[ext_resource path="res://sprites/health_bar_over.png" type="Texture" id=2]
 [ext_resource path="res://particles/meteorite_tail.tres" type="Material" id=3]
 [ext_resource path="res://mayo.gd" type="Script" id=4]
-[ext_resource path="res://sprites/meteorite.png" type="Texture" id=5]
-[ext_resource path="res://sprites/mayonesa.png" type="Texture" id=6]
-[ext_resource path="res://sprites/health_bar_progress.png" type="Texture" id=7]
+[ext_resource path="res://sprites/mayo.png" type="Texture" id=5]
+[ext_resource path="res://sprites/mayo_background.png" type="Texture" id=6]
 [ext_resource path="res://sprites/flake_particle.png" type="Texture" id=8]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 60.0
+[sub_resource type="CircleShape2D" id=1]
+radius = 64.0
 
 [node name="mayo" type="KinematicBody2D"]
 script = ExtResource( 4 )
@@ -18,29 +15,13 @@ script = ExtResource( 4 )
 [node name="speedDecreaseTimer" type="Timer" parent="."]
 wait_time = 0.25
 
-[node name="sprite" type="Sprite" parent="."]
-visible = false
-position = Vector2( -0.55011, 1.97134 )
-texture = ExtResource( 5 )
+[node name="graphics" type="Node2D" parent="."]
 
-[node name="healthBar" type="TextureProgress" parent="."]
-margin_left = 24.2509
-margin_top = -88.3886
-margin_right = 224.251
-margin_bottom = -48.3886
-value = 100.0
-texture_under = ExtResource( 1 )
-texture_over = ExtResource( 2 )
-texture_progress = ExtResource( 7 )
-tint_progress = Color( 0.239216, 0.576471, 0.235294, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -0.793701, 33.3354 )
-scale = Vector2( 0.6977, 0.486779 )
+[node name="back" type="Sprite" parent="graphics"]
 texture = ExtResource( 6 )
+
+[node name="sprite" type="Sprite" parent="graphics"]
+texture = ExtResource( 5 )
 
 [node name="tail" type="Particles2D" parent="."]
 amount = 30
@@ -50,6 +31,5 @@ process_material = ExtResource( 3 )
 texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 45 )
 shape = SubResource( 1 )
 [connection signal="timeout" from="speedDecreaseTimer" to="." method="_on_speedDecreaseTimer_timeout"]

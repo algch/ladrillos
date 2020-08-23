@@ -10,7 +10,6 @@ var difficulty = 1
 
 func _ready():
 	randomize()
-	spawn()
 
 func _on_player_shooted():
 	print("player shooted")
@@ -22,21 +21,21 @@ func _on_turnEnder_body_entered(body):
 	# TODO get damage from body
 	city_health -= 10
 	$cityHealth.value = city_health
-
 	body.destroy(false)
+	_check_city_health()
+
+func _check_city_health():
+	if city_health <= 0:
+		get_tree().change_scene("res://menu.tscn")
 
 func deploy_new_player():
 	var deployer = deployer_class.instance()
 	deployer.position = Vector2(280, 640)
 	add_child(deployer)
 
-func spawn():
-	var spawners = get_tree().get_nodes_in_group("spawners")
-	var spawner = spawners[ randi() % len(spawners) ]
-	spawner.spawn()
-
 func updateDifficulty():
-	difficulty += score/100.0 
+	difficulty += 1.0/100.0 
+	print("difficulty ", difficulty)
 
 func increment_score(points):
 	score += points
