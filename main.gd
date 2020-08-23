@@ -8,6 +8,23 @@ var score = 0
 var city_health = 100
 var difficulty = 1
 
+func play_effect(effect_name):
+	if $effects.playing:
+		return
+	match effect_name:
+		"mayo":
+			var stream = load("res://audio/mayonesa_mc.wav")
+			$effects.stream = stream
+			$effects.play()
+		"ay_perdon":
+			var stream = load("res://audio/ay_perdon.wav")
+			$effects.stream = stream
+			$effects.play()
+		"que_bruto":
+			var stream = load("res://audio/que_bruto.wav")
+			$effects.stream = stream
+			$effects.play()
+
 func _ready():
 	randomize()
 

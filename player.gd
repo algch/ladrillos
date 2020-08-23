@@ -29,6 +29,7 @@ onready var arrow = get_node("../arrow")
 
 enum STATE {IDLE, AIMING, ATTACK}
 var current_state = STATE.IDLE
+var play_sound = false
 
 func set_state(state):
 	match state:
@@ -90,6 +91,8 @@ func destroy(_increase):
 	get_parent().add_child(explosion)
 	get_parent().deploy_new_player()
 	queue_free()
+	var audio = ["ay_perdon", "que_bruto"][randi() % 2]
+	get_parent().play_effect(audio)
 
 func _input(event):
 	# is idle ?
@@ -122,6 +125,7 @@ func _physics_process(delta):
 		if collision.collider.has_method("deal_damage") and can_deal_damage:
 			# refreshing state ?
 			collision.collider.deal_damage(damage)
+			get_parent().play_effect("mayo")
 			set_state(STATE.IDLE)
 
 func _on_speedDecreaseTimer_timeout():

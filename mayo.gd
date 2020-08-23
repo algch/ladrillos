@@ -37,6 +37,9 @@ func destroy(increase):
 	get_parent().add_child(explosion)
 	if increase:
 		get_parent().increment_score(score)
+	else:
+		var audio = ["ay_perdon", "que_bruto"][randi() % 2]
+		get_parent().play_effect(audio)
 	queue_free()
 
 func check_health():

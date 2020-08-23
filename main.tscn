@@ -51,9 +51,6 @@ polygon = PoolVector2Array( -381.555, 179.562, -370.865, 104.727, -303.156, 15.6
 position = Vector2( 363.486, 637.883 )
 texture = ExtResource( 13 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
-
 [node name="player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 388.699, 486.17 )
 
@@ -104,5 +101,12 @@ collision_mask = 2
 [node name="arrow" type="Sprite" parent="."]
 position = Vector2( -60.613, 38.1637 )
 texture = ExtResource( 12 )
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -16.097
+autoplay = true
+
+[node name="effects" type="AudioStreamPlayer2D" parent="."]
 [connection signal="body_entered" from="turnEnder" to="." method="_on_turnEnder_body_entered"]
 [connection signal="timeout" from="spawnTimer" to="." method="spawn"]
