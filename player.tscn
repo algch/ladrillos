@@ -1,7 +1,6 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://sprites/player.png" type="Texture" id=2]
 [ext_resource path="res://particles/robot_tail.tres" type="Material" id=4]
 [ext_resource path="res://animations/pedro_sola/pedro_sola004.png" type="Texture" id=8]
 [ext_resource path="res://animations/pedro_sola/pedro_sola008.png" type="Texture" id=10]
@@ -112,13 +111,9 @@ wait_time = 0.1
 
 [node name="graphics" type="Node2D" parent="."]
 
-[node name="robot" type="Sprite" parent="graphics"]
-visible = false
-texture = ExtResource( 2 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="graphics"]
 frames = SubResource( 2 )
-frame = 6
+frame = 5
 playing = true
 
 [node name="tail" type="Particles2D" parent="graphics"]
