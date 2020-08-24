@@ -15,13 +15,14 @@ _global_script_class_icons={
 
 [application]
 
-config/name="ladrillos"
+config/name="MayoMayhem"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 ColorPalette="*res://scripts/color_palette.gd"
+Utils="*res://scripts/utils.gd"
 
 [display]
 
